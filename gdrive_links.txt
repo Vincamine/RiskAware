@@ -1,0 +1,15 @@
+vocab.json: https://drive.google.com/open?id=1SRa-zo2y7AcvBp5ox1S1xwbDecKom9sC
+roberta-base.onnx: https://drive.google.com/open?id=1rN01jwKXnzXrjBeDJAwjuo_GeMfHgR6z
+tokenizer_config.json: https://drive.google.com/open?id=1pdkOlfTSRViAD0-Nf0PvibCOTNI17EUu
+tokenizer.json: https://drive.google.com/open?id=1wkdByLJfqdaC-aCQ8yq_0Pc4uuKz_8Ao
+tf_model.h5: https://drive.google.com/open?id=1IGHG_kxMQzl5WrdQAuPmSJ__plkh9K6j
+rust_model.ot: https://drive.google.com/open?id=16FwJtEh9___pOs10oFVjS7ZyX9Zro2CP
+pytorch_model.bin: https://drive.google.com/open?id=1Pc7WEKoRIttfv1PCn1vcxW0jaNttsrIm
+model.safetensors: https://drive.google.com/open?id=1SDZVTRL5Y8IuKT8qp_Lv1ZplMmePeh2f
+merges.txt: https://drive.google.com/open?id=1LlhIjRj-PW3CYyIQ1GAbIuwA6zaxEO0a
+flax_model.msgpack: https://drive.google.com/open?id=15ppf-kj2Ojr2C0QZ7bXYJLCJMeBORKA0
+dict.txt: https://drive.google.com/open?id=1g3qP6IvhyyZWUtz-9hWhsCBvvHKxUQgi
+config.json: https://drive.google.com/open?id=1VdP9MEXs6d7mxnSITbTG2vWQ58O3vjRB
+README.md: https://drive.google.com/open?id=1pkn8UUFsJfr56bWTl4NyrQh8LUAr9jpO
+whisper-base/whisper_base_en-whisperdecoder.onnx: https://drive.google.com/open?id=1X1rs144ALjXYcedAAKAXdTBV9QBDf30U
+whisper-base/whisper_base_en-whisperencoder.onnx: https://drive.google.com/open?id=1XL8EZHiGUIUoNwPRICJ5TKR-Ber8Xtwi
