@@ -49,35 +49,51 @@ const RiskHeatmap = ({ contractData }) => {
           
           return (
             <div key={index} className="heatmap-row">
-              <div className="section-name">{section}</div>
-              <div className="risk-bar-container">
+              <div className="section-name" style={{ width: '150px', textAlign: 'left', fontWeight: 'medium' }}>
+                {section}
+              </div>
+              <div className="risk-bar-container" style={{ flex: 1, display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <div 
                   className="risk-bar" 
                   style={{ 
                     width: `${score}%`, 
-                    backgroundColor: risk.color 
+                    backgroundColor: risk.color,
+                    height: '20px',
+                    borderRadius: '4px'
                   }}
                 ></div>
-                <span className="risk-score">{score}%</span>
+                <span className="risk-score" style={{ minWidth: '40px', fontWeight: 'bold' }}>{score}%</span>
               </div>
-              <div className={`risk-level risk-${risk.level}`}>
+              <div 
+                className={`risk-level risk-${risk.level}`}
+                style={{ 
+                  width: '80px', 
+                  textAlign: 'center',
+                  backgroundColor: risk.color,
+                  color: 'white',
+                  padding: '4px 8px',
+                  borderRadius: '4px',
+                  fontWeight: 'bold',
+                  fontSize: '0.75rem'
+                }}
+              >
                 {risk.level.toUpperCase()}
               </div>
             </div>
           );
         })}
       </div>
-      <div className="legend">
-        <div className="legend-item">
-          <span className="legend-color" style={{ backgroundColor: '#2ecc71' }}></span>
+      <div className="legend" style={{ display: 'flex', justifyContent: 'center', margin: '20px 0', gap: '20px' }}>
+        <div className="legend-item" style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+          <span className="legend-color" style={{ backgroundColor: '#2ecc71', width: '15px', height: '15px', borderRadius: '3px' }}></span>
           <span>Low Risk (0-30%)</span>
         </div>
-        <div className="legend-item">
-          <span className="legend-color" style={{ backgroundColor: '#f39c12' }}></span>
+        <div className="legend-item" style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+          <span className="legend-color" style={{ backgroundColor: '#f39c12', width: '15px', height: '15px', borderRadius: '3px' }}></span>
           <span>Medium Risk (30-60%)</span>
         </div>
-        <div className="legend-item">
-          <span className="legend-color" style={{ backgroundColor: '#e74c3c' }}></span>
+        <div className="legend-item" style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+          <span className="legend-color" style={{ backgroundColor: '#e74c3c', width: '15px', height: '15px', borderRadius: '3px' }}></span>
           <span>High Risk (60-100%)</span>
         </div>
       </div>
