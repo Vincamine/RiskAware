@@ -1,6 +1,6 @@
 # RiskAware
  
-## 🔧 Setup and Installation
+## Setup and Installation
 
 ### Prerequisites
 - Python 3.8+
@@ -65,7 +65,7 @@ python download_model.py
 uvicorn main:app --reload
 ```
 
-## 📦 Download Model
+## Download Model
 Since the model is too large to store in GitHub, you need to download it separately.
 
 Run the following command:
@@ -78,7 +78,7 @@ This will download the model from Google Drive and place it in backend/models/.
 ---
 
 
-## 🏗️ Project Structure
+## Project Structure
 
 ```
 RiskAware-Hackathon/
@@ -97,7 +97,7 @@ RiskAware-Hackathon/
 └── README.md              # This file
 ```
 
-## 🔄 API Endpoints
+## API Endpoints
 
 Current implemented endpoints:
 
@@ -110,7 +110,7 @@ Planned endpoints:
 - `GET /api/risk-assessment` - Generate risk scores and heatmaps
 - `GET /api/export` - Generate downloadable reports
 
-## 📋 Features
+## Features
 
 ### Document Risk Analysis
 Upload PDF or DOCX contract files to get AI-powered risk analysis:
@@ -124,6 +124,6 @@ Upload PDF or DOCX contract files to get AI-powered risk analysis:
 ## Frontend Page
 ![Frontend Homepage](/util/Homepage.png.png)
 
-## 📝 License
+## License
 
 [MIT License](LICENSE)
