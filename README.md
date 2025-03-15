@@ -77,6 +77,11 @@ Current and planned endpoints:
 - `POST /api/voice` - Process voice input for contract review
 - `GET /api/export` - Generate downloadable reports
 
+
+
+## Frontend Page
+![Frontend Homepage](/util/Homepage.png.png)
+
 ## 📝 License
 
 [MIT License](LICENSE)
