@@ -1,7 +1,7 @@
 import React from 'react';
 
-const RiskHeatmap = ({ contractData }) => {
-  // 示例数据结构
+const RiskHeatmap = ({ analysisResults }) => {
+  // Example data structure
   const defaultData = {
     sections: [
       "Introduction",
@@ -29,8 +29,11 @@ const RiskHeatmap = ({ contractData }) => {
     ]
   };
 
-  // 使用提供的数据或默认回退到示例数据
-  const data = contractData || defaultData;
+  // Use provided data or fallback to default
+  const data = {
+    sections: analysisResults?.sections || defaultData.sections,
+    riskScores: analysisResults?.riskScores || defaultData.riskScores
+  };
 
   // 确定风险级别的函数
   const getRiskLevel = (score) => {

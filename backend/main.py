@@ -1,33 +1,131 @@
 from fastapi import FastAPI, File, UploadFile
-import onnxruntime as ort
-import numpy as np
-import torch
-from transformers import RobertaTokenizer
+from fastapi.middleware.cors import CORSMiddleware
+import random
+import os
+import time
 
 app = FastAPI()
 
-# **load Whisper model**
-whisper_encoder = ort.InferenceSession("backend/models/whisper-base/whisper_base_en-whisperencoder.onnx")
-whisper_decoder = ort.InferenceSession("backend/models/whisper-base/whisper_base_en-whisperdecoder.onnx")
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-# **load RoBERTa model**
-roberta_model = ort.InferenceSession("backend/models/roberta-base.onnx")
-roberta_tokenizer = RobertaTokenizer.from_pretrained("backend/models")
+# For demo purposes, we're not loading the models to simplify testing
+# In a real implementation, you would use the models for actual analysis
 
 # **Speech-to-Text API**
 @app.post("/transcribe/")
 async def transcribe(audio_file: UploadFile = File(...)):
-    audio_data = np.frombuffer(audio_file.file.read(), dtype=np.float32)
-    encoder_output = whisper_encoder.run(None, {"input_features": audio_data})[0]
-    transcription = whisper_decoder.run(None, {"encoder_output": encoder_output})[0]
-    return {"transcription": transcription}
+    # Mock implementation for demo
+    await audio_file.read()  # Read the file but don't process it
+    time.sleep(1)  # Simulate processing time
+    return {"transcription": "This is a mock transcription for demonstration purposes."}
 
 # **Text Contract Analysis API**
 @app.post("/analyze/")
 async def analyze(text: str):
-    inputs = roberta_tokenizer(text, return_tensors="np", max_length=512, padding="max_length", truncation=True)
-    output = roberta_model.run(None, {"input_ids": inputs["input_ids"], "attention_mask": inputs["attention_mask"]})[0]
-    return {"analysis": output.tolist()}
+    # Mock implementation for demo
+    time.sleep(1)  # Simulate processing time
+    return {"analysis": [random.random() for _ in range(10)]}
+
+# Root endpoint for health check
+@app.get("/")
+async def root():
+    return {"message": "RiskAware API is running"}
+
+# **Contract Upload API**
+@app.post("/api/upload")
+async def upload_contract(file: UploadFile = File(...)):
+    """
+    Upload a contract file (PDF or DOCX) for analysis with risk marking
+    """
+    await file.read()  # Read the file (not actually used in this demo)
+    
+    # Generate random risk analysis for demo
+    sections = [
+        "Introduction",
+        "Definitions",
+        "Services",
+        "Payment",
+        "Term",
+        "Confidentiality",
+        "IP Rights",
+        "Limitation of Liability",
+        "Termination",
+        "Notices"
+    ]
+    
+    # Demo risk scores
+    risk_scores = [
+        random.randint(10, 30),  # Usually Low risk
+        random.randint(10, 30),  # Usually Low risk
+        random.randint(20, 50),  # Low-Medium risk
+        random.randint(50, 70),  # Medium risk
+        random.randint(30, 50),  # Low-Medium risk
+        random.randint(30, 60),  # Medium risk
+        random.randint(60, 90),  # High risk
+        random.randint(70, 100), # High risk
+        random.randint(70, 100), # High risk
+        random.randint(20, 40)   # Low-Medium risk
+    ]
+    
+    # Count clauses by risk level
+    high_risk_count = sum(1 for score in risk_scores if score >= 60)
+    medium_risk_count = sum(1 for score in risk_scores if 30 <= score < 60)
+    low_risk_count = sum(1 for score in risk_scores if score < 30)
+    total_clauses = len(risk_scores)
+    
+    # Calculate overall risk score (weighted average)
+    overall_score = sum(risk_scores) / len(risk_scores)
+    
+    # Determine overall risk level
+    risk_level = "High" if overall_score >= 60 else "Medium" if overall_score >= 30 else "Low"
+    
+    # Generate key concerns based on highest risk sections
+    high_risk_sections = [(sections[i], risk_scores[i]) for i in range(len(sections)) if risk_scores[i] >= 60]
+    high_risk_sections.sort(key=lambda x: x[1], reverse=True)
+    
+    key_concerns = [
+        f"{section} section poses significant risk with a score of {score}%" 
+        for section, score in high_risk_sections
+    ]
+    
+    if not key_concerns:
+        key_concerns = ["No significant risks detected in this contract"]
+    
+    # Generate recommendations
+    recommendations = [
+        f"Review {section} section in detail" for section, _ in high_risk_sections
+    ]
+    
+    if not recommendations:
+        recommendations = ["Contract appears to have low risk overall"]
+    else:
+        recommendations.append("Consider legal consultation for high-risk clauses")
+    
+    # Mock response for demo
+    return {
+        "fileId": f"contract-{random.randint(1000, 9999)}",
+        "documentName": file.filename,
+        "documentSize": f"{random.randint(1, 5)}.{random.randint(1, 9)} MB",
+        "overallScore": round(overall_score),
+        "riskLevel": risk_level,
+        "highRiskClauses": high_risk_count,
+        "mediumRiskClauses": medium_risk_count,
+        "lowRiskClauses": low_risk_count,
+        "totalClauses": total_clauses,
+        "analyzedPages": random.randint(5, 20),
+        "analysisDate": "",  # Frontend will use current date
+        "keyConcerns": key_concerns,
+        "recommendations": recommendations,
+        "sections": sections,
+        "riskScores": risk_scores
+    }
 
 if __name__ == "__main__":
     import uvicorn

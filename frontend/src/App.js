@@ -75,38 +75,32 @@ function App() {
 
     setIsLoading(true);
     
-    // In a real implementation, this would upload to the backend
-    // For now, we'll simulate a response after a delay
-    setTimeout(() => {
-      // Mock analysis results
-      setAnalysisResults({
-        fileId: "contract-123",
-        documentName: file.name,
-        documentSize: `${(file.size / (1024 * 1024)).toFixed(1)} MB`,
-        overallScore: 75,
-        riskLevel: "Medium",
-        highRiskClauses: 2,
-        mediumRiskClauses: 3,
-        lowRiskClauses: 5,
-        totalClauses: 10,
-        analyzedPages: 12,
-        analysisDate: new Date().toLocaleDateString(),
-        keyConcerns: [
-          "Liability limitations cap damages at 12 months of fees",
-          "Early termination carries significant penalties",
-          "Intellectual property rights may be compromised"
-        ],
-        recommendations: [
-          "Review Section 9.3 on liability limitations",
-          "Clarify termination conditions in Section 8.2",
-          "Consider negotiating payment terms in Section 4.1",
-          "Seek clarification on intellectual property rights"
-        ]
+    try {
+      // Create FormData and append the file
+      const formData = new FormData();
+      formData.append('file', file);
+      
+      // Send to backend API
+      const response = await axios.post('http://localhost:8000/api/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
       });
       
+      // Add today's date to the results
+      const results = {
+        ...response.data,
+        analysisDate: new Date().toLocaleDateString()
+      };
+      
+      setAnalysisResults(results);
       setIsLoading(false);
       setActiveTab("results");
-    }, 2000);
+    } catch (error) {
+      console.error("Error uploading file:", error);
+      alert("Failed to analyze the contract. Please try again.");
+      setIsLoading(false);
+    }
   };
 
   const handleExport = async () => {
@@ -226,7 +220,7 @@ function App() {
             
             <div className="visualization-section">
               <h3>Risk Visualization</h3>
-              <RiskHeatmap />
+              <RiskHeatmap analysisResults={analysisResults} />
             </div>
             
             <div className="risk-clauses">
